@@ -1,19 +1,21 @@
 {
-  "name": "PLUGIN_NAME",
+  "name": "postcss-url-versioner",
   "version": "0.0.0",
-  "description": "PostCSS plugin PLUGIN_DESC",
+  "description": "PostCSS plugin url versioner",
   "keywords": [
     "postcss",
     "css",
-    "postcss-plugin"KEYWORDS
+    "postcss-plugin",
+    "url",
+    "versioner"
   ],
-  "author": "AUTHOR_NAME <AUTHOR_EMAIL>",
+  "author": "wilsonft <wilsonft83@gmail.com>",
   "license": "MIT",
-  "repository": "GITHUB_NAME/PLUGIN_NAME",
+  "repository": "wilsson/postcss-url-versioner",
   "bugs": {
-    "url": "https://github.com/GITHUB_NAME/PLUGIN_NAME/issues"
+    "url": "https://github.com/wilsson/postcss-url-versioner/issues"
   },
-  "homepage": "https://github.com/GITHUB_NAME/PLUGIN_NAME",
+  "homepage": "https://github.com/wilsson/postcss-url-versioner",
   "dependencies": {
     "postcss": "^6.0.1"
   },

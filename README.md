@@ -1,51 +1,47 @@
-# PostCSS Plugin Boilerplate
+# PostCSS Url Versioner [![Build Status][ci-img]][ci]
+In progess
+[PostCSS] plugin url versioner.
 
-<img align="right" width="135" height="95"
-     title="Philosopher’s stone, logo of PostCSS"
-     src="http://postcss.github.io/postcss/logo-leftp.svg">
+[PostCSS]: https://github.com/postcss/postcss
+[ci-img]:  https://travis-ci.org/wilsson/postcss-url-versioner.svg
+[ci]:      https://travis-ci.org/wilsson/postcss-url-versioner
 
-Сreate new PostCSS plugins in a few steps:
+```css
+/* Input example */
+@font-face {
+  font-family: 'MyWebFont';
+  src: url('webfont.eot');
+  src: url('webfont.eot?#iefix') format('embedded-opentype'),
+       url('webfont.woff2') format('woff2'),
+       url('webfont.woff') format('woff'),
+       url('webfont.ttf')  format('truetype'),
+       url('webfont.svg#svgFontName') format('svg');
+}
 
-1. Clone this repository:
-
-```sh
-git clone https://github.com/postcss/postcss-plugin-boilerplate.git
+.myImage{
+	background-image: url("/public/img/other/image3.png");
+}
 ```
 
-2. Execute the wizard script. It will ask you a few questions
-   and fill all files with your data.
-
-```sh
-node ./postcss-plugin-boilerplate/start
+```css
+/* Output example */
+@font-face {
+  font-family: 'MyWebFont';
+  src: url("webfont.eot?v=2017612");
+  src: url("webfont.eot??v=2017612#iefix") format('embedded-opentype'), 
+	   url("webfont.woff2?v=2017612") format('woff2'), 
+       url("webfont.ttf?v=2017612") format('truetype'), 
+       url("webfont.svg?v=2017612#svgFontName") format('svg');
+}
+.myImage{
+	background-image: url("/public/img/other/image3.png?v=2017612");
+}
 ```
 
-Call it with `--yarn` argument, if you prefer [yarn](https://yarnpkg.com/)
-package manager:
+## Usage
 
-```sh
-node ./postcss-plugin-boilerplate/start --yarn
+```js
+postcss([ require('postcss-url-versioner') ])
 ```
 
-Or use `--no-install` if you want to skip dependencies installation.
-
-3. Your plugin repository will now have a clean Git history.
-[Create the GitHub repository](https://github.com/new)
-and push your project there.
-
-4. Add your project to [Travis CI](https://travis-ci.org).
-
-5. Write some code to `index.js` and tests to `test.js`.
-
-6. Execute `npm test` command
-
-7. Add input and output CSS examples to `README.md`.
-
-8. Add options descriptions if your plugin has them.
-
-9. Fill `CHANGELOG.md` with initial version and release it to npm.
-
-10. Fork [PostCSS](https://github.com/postcss/postcss), add your plugin to the
-[Plugins list](https://github.com/postcss/postcss/blob/master/docs/plugins.md)
-and send a pull request.
-
-11. Follow [@PostCSS](https://twitter.com/postcss) to get the latest updates.
+See [PostCSS] docs for examples for your environment.

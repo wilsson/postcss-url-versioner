@@ -1,6 +1,7 @@
 var postcss = require('postcss');
 
 var plugin = require('./');
+var VERSION = '?v=2017612';
 
 function run(input, output, opts) {
     return postcss([ plugin(opts) ]).process(input)
@@ -10,10 +11,9 @@ function run(input, output, opts) {
         });
 }
 
-/* Write tests here
+var tagA = 'a{ background-image:url("./image.png"); }';
+// Write tests here
 
 it('does something', () => {
-    return run('a{ }', 'a{ }', { });
+    return run(tagA, 'a{ background-image:url("./image.png'+ VERSION +'"); }', { });
 });
-
-*/
