@@ -1,5 +1,14 @@
 var postcss = require('postcss');
-var VERSION = '?v=2017612';
+var jlc = require("json-last-commit");
+var VERSION = '?v=' + jlc.sync().ahash;
+var defaultOpts =  {
+    lastcommit: false,
+    variable: 'v'
+}
+
+function createQuery(variable){
+    return '?=' + variable;
+}
 
 function createUrl(value) {
     var url = 'url(\"' + value + '\")';
@@ -36,7 +45,7 @@ function convertUrl(value) {
 }
 
 module.exports = postcss.plugin('postcss-url-versioner', function (opts) {
-    opts = opts || {};
+    opts = opts || defaultOpts;
 
     // Work with options here
     return function (root) {
