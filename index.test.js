@@ -1,7 +1,10 @@
 var postcss = require('postcss');
+var jlc = require("json-last-commit");
 
 var plugin = require('./');
-var VERSION = '?v=2017612';
+var variable = 'version';
+var version = Math.random();
+var query = '?'+ variable + "=" + version;
 
 function run(input, output, opts) {
     return postcss([ plugin(opts) ]).process(input)
@@ -15,5 +18,8 @@ var tagA = 'a{ background-image:url("./image.png"); }';
 // Write tests here
 
 it('does something', () => {
-    return run(tagA, 'a{ background-image:url("./image.png'+ VERSION +'"); }', { });
+    return run(tagA, 'a{ background-image:url("./image.png'+ query +'"); }', {
+        variable: variable,
+        version: version
+     });
 });

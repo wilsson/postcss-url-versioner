@@ -8,3 +8,7 @@ yarn.lock
 
 *.test.js
 .travis.yml
+
+/node_modules
+/src
+tsconfig.json
