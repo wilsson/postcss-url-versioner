@@ -1,52 +1,52 @@
-var postcss = require('postcss');
+"use strict";
+var postcss = require("postcss");
 var jlc = require("json-last-commit");
-var VERSION = '?v=' + jlc.sync().ahash;
-var defaultOpts =  {
-    lastcommit: false,
-    variable: 'v'
-}
-
-function createQuery(variable){
-    return '?=' + variable;
-}
-
-function createUrl(value) {
-    var url = 'url(\"' + value + '\")';
-    return url;
-}
-
-function moreUrl(chunksValue) {
+var VERSION = jlc.sync().ahash;
+var REGEX_FORMAT = /format(.*)/g;
+var REGEX_URL = /\((.*?)\)/;
+var defaultOpts = {
+    lastCommit: VERSION,
+    variable: 'v',
+    version: 12
+};
+var createQuery = function (variable) { return "?" + variable + "="; };
+var getChunksUrl = function (value) {
+    var _a = value.match(REGEX_URL)[1].replace(/["']/g, '').split('#'), url = _a[0], link = _a[1];
+    var format = (value.match(REGEX_FORMAT) || [])[0];
+    var args = { url: url, link: link, format: format };
+    return args;
+};
+var createUrl = function (param) {
+    var url = param.url, link = param.link, format = param.format;
+    var result;
+    result = "" + url + createQuery(defaultOpts.variable) + defaultOpts.lastCommit;
+    result = link ? result + "#" + link : result;
+    result = "url(\"" + result + "\")";
+    result = format ? result + " " + format : result;
+    return result;
+};
+var oneUrl = function (value) {
+    var args = getChunksUrl(value);
+    return createUrl(args);
+};
+var moreUrl = function (chunksValue) {
     var urls = chunksValue.map(function (element) {
-        var url;
-        var chunksUrl = element.match(/url\((.*)\)[^format]/)[1].replace(/["']/g, '').split('#');
-        var chunkFormat = element.match(/format(.*)/g);
-        if (chunksUrl.length > 1) {
-            url = createUrl(chunksUrl[0] + VERSION + '#' + chunksUrl[1]);
-            url = url + ' ' + chunkFormat;
-            return url;
-        }
-        url = createUrl(chunksUrl + VERSION) + ' ' + chunkFormat;
-        return url;
+        var args = getChunksUrl(element);
+        return createUrl(args);
     });
-    return urls.join(',');
-}
-function oneUrl(value) {
-    var url =  value.match(/url\((.*)\)/)[1].replace(/["']/g, '') + VERSION;
-    url = createUrl(url);
-    return url;
-}
-
-function convertUrl(value) {
-    var chunksValue = value.split(',');
+    return urls.join(', ');
+};
+var convertUrl = function (value) {
+    var chunksValue;
+    chunksValue = value.split(',');
     if (chunksValue.length > 1) {
         return moreUrl(chunksValue);
     }
     return oneUrl(value);
-}
-
+};
 module.exports = postcss.plugin('postcss-url-versioner', function (opts) {
-    opts = opts || defaultOpts;
-
+    Object.assign(defaultOpts, opts);
+    console.log("defaultOpts>", defaultOpts);
     // Work with options here
     return function (root) {
         // Transform CSS AST here
