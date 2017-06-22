@@ -3,7 +3,8 @@ var jlc = require("json-last-commit");
 
 var plugin = require('./');
 var variable = 'version';
-var version = '?'+ variable + "=" +jlc.sync().ahash;
+var version = Math.random();
+var query = '?'+ variable + "=" + version;
 
 function run(input, output, opts) {
     return postcss([ plugin(opts) ]).process(input)
@@ -16,10 +17,9 @@ function run(input, output, opts) {
 var tagA = 'a{ background-image:url("./image.png"); }';
 // Write tests here
 
-console.log("jlc>", version);
-
 it('does something', () => {
-    return run(tagA, 'a{ background-image:url("./image.png'+ version +'"); }', {
-        variable: variable
+    return run(tagA, 'a{ background-image:url("./image.png'+ query +'"); }', {
+        variable: variable,
+        version: version
      });
 });
