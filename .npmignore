@@ -10,3 +10,5 @@ yarn.lock
 .travis.yml
 
 /node_modules
+/src
+tsconfig.json
